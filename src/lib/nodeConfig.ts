@@ -1,4 +1,15 @@
 import { NodeType } from '@/types';
+import {
+  FaInstagram,
+  FaUber,
+  FaWhatsapp,
+  FaAmazon,
+  FaAirbnb,
+  FaYoutube,
+} from "react-icons/fa";
+
+import { RiTwitterXFill, RiNextjsFill } from "react-icons/ri";
+import { SiNetflix } from "react-icons/si";
 
 export const NODE_CONFIG: Record<NodeType, {
   color: string;
@@ -29,12 +40,12 @@ export const CONNECTION_COLORS: Record<string, string> = {
 };
 
 export const PRESET_SYSTEMS = [
-  { name: 'Instagram', emoji: '📸', prompt: 'Build Instagram - photo/video sharing with stories, reels, explore feed, DMs, and social graph' },
-  { name: 'Netflix', emoji: '🎬', prompt: 'Build Netflix - video streaming platform with recommendations, CDN delivery, encoding pipeline, and global scale' },
-  { name: 'Uber', emoji: '🚗', prompt: 'Build Uber - ride sharing with real-time location tracking, driver matching, surge pricing, and trip management' },
-  { name: 'WhatsApp', emoji: '💬', prompt: 'Build WhatsApp - messaging app with end-to-end encryption, group chats, media sharing, and presence indicators' },
-  { name: 'Amazon', emoji: '🛒', prompt: 'Build Amazon - e-commerce platform with product catalog, cart, payments, inventory, fulfillment, and recommendations' },
-  { name: 'Twitter/X', emoji: '🐦', prompt: 'Build Twitter/X - social media with tweets, timeline feed, trending topics, notifications, and search' },
-  { name: 'Airbnb', emoji: '🏠', prompt: 'Build Airbnb - rental marketplace with listings, search, booking, payments, reviews, and host management' },
-  { name: 'YouTube', emoji: '▶️', prompt: 'Build YouTube - video platform with uploads, transcoding, streaming, comments, subscriptions, and recommendations' },
+  { name: 'Instagram',  icon: FaInstagram, prompt: 'Build Instagram - photo/video sharing with stories, reels, explore feed, DMs, and social graph' },
+  { name: 'Netflix', icon: SiNetflix, prompt: 'Build Netflix - video streaming platform with recommendations, CDN delivery, encoding pipeline, and global scale' },
+  { name: 'Uber', icon: FaUber, prompt: 'Build Uber - ride sharing with real-time location tracking, driver matching, surge pricing, and trip management' },
+  { name: 'WhatsApp', icon: FaWhatsapp, prompt: 'Build WhatsApp - messaging app with end-to-end encryption, group chats, media sharing, and presence indicators' },
+  { name: 'Amazon', icon: FaAmazon, prompt: 'Build Amazon - e-commerce platform with product catalog, cart, payments, inventory, fulfillment, and recommendations' },
+  { name: 'Twitter/X', icon: RiTwitterXFill, prompt: 'Build Twitter/X - social media with tweets, timeline feed, trending topics, notifications, and search' },
+  { name: 'Airbnb', icon: FaAirbnb, prompt: 'Build Airbnb - rental marketplace with listings, search, booking, payments, reviews, and host management' },
+  { name: 'YouTube', icon: FaYoutube, prompt: 'Build YouTube - video platform with uploads, transcoding, streaming, comments, subscriptions, and recommendations' },
 ];

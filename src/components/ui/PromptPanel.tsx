@@ -62,16 +62,21 @@ export function PromptPanel() {
       >
         {/* Preset buttons */}
         <div className="flex gap-2 mb-3 flex-wrap justify-center">
-          {PRESET_SYSTEMS.map((sys) => (
-            <button
-              key={sys.name}
-              onClick={() => { setUserPrompt(sys.prompt); generate(sys.prompt); }}
-              disabled={isGenerating}
-              className="px-3 py-1.5 glass cyber-border rounded font-mono text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-all disabled:opacity-40"
-            >
-              {sys.emoji} {sys.name}
-            </button>
-          ))}
+          {PRESET_SYSTEMS.map((sys) => {
+            const Icon = sys.icon;
+
+            return (
+              <button
+                key={sys.name}
+                onClick={() => { setUserPrompt(sys.prompt); generate(sys.prompt); }}
+                disabled={isGenerating}
+                className="px-3 py-1.5 glass cyber-border rounded font-mono text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-400/50 transition-all disabled:opacity-40 flex items-center gap-2"
+              >
+                 <Icon size={14} />
+                  {sys.name}
+              </button>
+            );
+          })}
         </div>
 
         {/* Main input */}
