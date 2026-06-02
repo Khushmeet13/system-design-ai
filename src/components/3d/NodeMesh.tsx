@@ -122,7 +122,6 @@ export function NodeMesh({ node, isFailed, isHovered }: NodeMeshProps) {
           color={isActive ? '#ffffff' : '#94a3b8'}
           anchorX="center"
           anchorY="middle"
-          font="https://fonts.gstatic.com/s/jetbrainsmono/v18/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxTN1OVgaY.woff"
         >
           {node.label}
         </Text>
