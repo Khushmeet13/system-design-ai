@@ -346,9 +346,9 @@ const OPENROUTER_MODEL = 'qwen/qwen3.6-plus-preview:free';
 const GROQ_API_KEY = process.env.NEXT_GROQ_API_KEY || '';
 const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
+const GEMINI_API_KEY = process.env.NEXT_GEMINI_API_KEY || '';
 
-const USE_PROVIDER = process.env.USE_PROVIDER || 'groq';
+// const USE_PROVIDER = process.env.USE_PROVIDER || 'groq';
 
 const SYSTEM_PROMPT = `You are a senior software architect and system design expert. When given a system to design, generate a comprehensive architecture in JSON format.
 
@@ -518,26 +518,60 @@ export async function POST(req: NextRequest) {
     const { prompt } = await req.json();
     if (!prompt) return NextResponse.json({ error: 'Prompt required' }, { status: 400 });
 
-    let text = '';
+     let text = '';
+    let usedProvider = 'none';
+    let lastError = null;
 
-    try {
-      if (USE_PROVIDER === 'openrouter' && OPENROUTER_API_KEY) {
-        console.log('Using OpenRouter API...');
-        text = await callOpenRouter(prompt);
-      } else if (USE_PROVIDER === 'groq' && GROQ_API_KEY) {
-        console.log('Using Groq API...');
-        text = await callGroq(prompt);
-      } else if (USE_PROVIDER === 'gemini' && GEMINI_API_KEY) {
-        console.log('Using Gemini API...');
-        text = await callGemini(prompt);
+     const providers = [
+      { name: 'groq', fn: () => callGroq(prompt), hasKey: !!GROQ_API_KEY },
+      { name: 'gemini', fn: () => callGemini(prompt), hasKey: !!GEMINI_API_KEY },
+      { name: 'openrouter', fn: () => callOpenRouter(prompt), hasKey: !!OPENROUTER_API_KEY }
+    ];
+
+    for (const provider of providers) {
+      if (provider.hasKey) {
+        try {
+          text = await provider.fn();
+          usedProvider = provider.name;
+          break; // Success, exit the chain
+        } catch (error) {
+          console.error(`${provider.name} failed:`, error);
+          lastError = error;
+          continue; // Try next provider
+        }
       } else {
-        console.log('No API key configured, using mock generator');
-        return NextResponse.json({ architecture: generateMockArchitecture(prompt), usedFallback: true });
+        console.log(`Skipping ${provider.name} - no API key`);
       }
-    } catch (apiError) {
-      console.error('API error, falling back to mock:', apiError);
-      return NextResponse.json({ architecture: generateMockArchitecture(prompt), usedFallback: true });
     }
+
+    if (!text) {
+      console.log('All APIs failed, using mock generator');
+      return NextResponse.json({ 
+        architecture: generateMockArchitecture(prompt), 
+        usedFallback: true,
+        provider: 'mock',
+        error: lastError?.message 
+      });
+    }
+
+    // try {
+    //   if (USE_PROVIDER === 'openrouter' && OPENROUTER_API_KEY) {
+    //     console.log('Using OpenRouter API...');
+    //     text = await callOpenRouter(prompt);
+    //   } else if (USE_PROVIDER === 'groq' && GROQ_API_KEY) {
+    //     console.log('Using Groq API...');
+    //     text = await callGroq(prompt);
+    //   } else if (USE_PROVIDER === 'gemini' && GEMINI_API_KEY) {
+    //     console.log('Using Gemini API...');
+    //     text = await callGemini(prompt);
+    //   } else {
+    //     console.log('No API key configured, using mock generator');
+    //     return NextResponse.json({ architecture: generateMockArchitecture(prompt), usedFallback: true });
+    //   }
+    // } catch (apiError) {
+    //   console.error('API error, falling back to mock:', apiError);
+    //   return NextResponse.json({ architecture: generateMockArchitecture(prompt), usedFallback: true });
+    // }
 
     // Strip markdown fences
     const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/, '').trim();

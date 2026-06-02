@@ -20,7 +20,7 @@ export function StatusBar() {
       className="space-y-2"
     >
       {/* Architecture info */}
-      <div className="glass-strong rounded-xl border border-cyan-400/15 p-3 max-w-xs">
+      <div className="glass-strong rounded-xl border border-cyan-400/15 p-3 max-w-[300px]">
         <div className="font-display text-xs text-cyan-400 mb-2">{architecture.title.toUpperCase()}</div>
         <p className="font-mono text-[10px] text-slate-400 mb-3 leading-relaxed">{architecture.description}</p>
 

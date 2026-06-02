@@ -19,8 +19,9 @@ export function ModeBar() {
     <motion.div
       initial={{ x: -200, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className="space-y-3"
+      className="space-y-1"
     >
+      <div className='grid grid-cols-2 space-x-1'>
       {/* Mode selector */}
       <div className="glass-strong rounded-xl border border-cyan-400/15 p-3">
         <div className="font-display text-[10px] text-slate-500 mb-2 tracking-widest">MODE</div>
@@ -75,6 +76,8 @@ export function ModeBar() {
             </button>
           ))}
         </div>
+      </div>
+
       </div>
 
       {/* Failure mode info */}

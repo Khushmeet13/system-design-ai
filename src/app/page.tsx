@@ -47,7 +47,7 @@ export default function Home() {
           <ModeBar />
         </div>
 
-        <div className="absolute bottom-36 left-4 pointer-events-auto">
+        <div className="absolute bottom-10 left-4 pointer-events-auto">
           <StatusBar />
         </div>
       </div>
